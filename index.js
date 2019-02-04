@@ -6,6 +6,10 @@ const BodyParser = require('koa-bodyparser')
 const app = new Koa();
 const router = new KoaRouter();
 
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
+
+const message = ''
+
 // Formats json to web browser
 app.use(json());
 
@@ -16,7 +20,12 @@ app.use(BodyParser())
 app.use(router.routes()).use(router.allowedMethods());
 
 // test route
-router.get("/", ctx => (ctx.body = "Hello test"));
+router.get("/", ctx => (ctx.body = message));
+
+// Verify route
+router.get('/webhook', ctx => {
+  message = ctx.body
+})
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server started.");
