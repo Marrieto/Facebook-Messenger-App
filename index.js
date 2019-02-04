@@ -41,6 +41,7 @@ router.get("/", ctx => {
       console.error("Unable to send message:" + err);
     }
   }); 
+  this.body = 'Your message has been sent'
 });
 
 // Verify route
