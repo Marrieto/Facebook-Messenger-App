@@ -1,10 +1,23 @@
-const express = require('express')
-const path = require('path')
-const PORT = process.env.PORT || 5000
+const Koa = require("koa");
+const json = require("koa-json");
+const KoaRouter = require("koa-router");
+const BodyParser = require('koa-bodyparser')
 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+const app = new Koa();
+const router = new KoaRouter();
+
+// Formats json to web browser
+app.use(json());
+
+// Body parser
+app.use(BodyParser())
+
+// Router middleware
+app.use(router.routes()).use(router.allowedMethods());
+
+// test route
+router.get("/test", ctx => (ctx.body = "Hello test"));
+
+app.listen(process.env.port, () => {
+  console.log("Server started.");
+});
