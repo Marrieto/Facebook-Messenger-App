@@ -18,6 +18,6 @@ app.use(router.routes()).use(router.allowedMethods());
 // test route
 router.get("/", ctx => (ctx.body = "Hello test"));
 
-app.listen(process.env.port, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server started.");
 });
