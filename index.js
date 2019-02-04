@@ -21,23 +21,30 @@ app.use(BodyParser())
 // app.use(router.routes()).use(router.allowedMethods());
 app.use(router.routes());
 
+// ID = 1082478417
+
 // test route
 router.get("/", ctx => {
+  console.log(ctx)
+
   let request_body = {
     "recipient": {
-      "id": "MartinoLindahl"
+      "id": "1082478417"
     },
     "message": "Tjenamors!"
   }
 
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    // "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    "qs": { "access_token": "EAAeatq63GxwBAD8rMoK3rf5rs7tJgke3QmtyFdTrhQU1ctGK3RURnbSAEasSQE82lDItTwjU2ZApFydkgy6xaHyZAy5aOzD4IYVMZCxYXzqnHpL1iombkkSo31okPt4QjpuOEO3oY9JN0KHX9vS9qxXgCoqbWfmBoYQCJcC9gZDZD" },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!')
+      console.log(res)
+      console.log(body);
+      
     } else {
       console.error("Unable to send message:" + err);
     }
@@ -46,13 +53,24 @@ router.get("/", ctx => {
 });
 
 router.get('/hook', ctx => {
-  console.log(ctx.query['hub.challenge'])
-  let responseNumber = ctx.query['hub.challenge']
-  let responseToken = ctx.query['hub.verify_token']
+  console.log(ctx)
+  // let responseNumber = ctx.query['hub.challenge']
+  // let responseToken = ctx.query['hub.verify_token']
   // let responseHeaders = [responseNumber, responseToken]
 
   ctx.body = responseNumber
 })
+
+router.post('/hook', ctx => {
+  console.log(ctx)
+  // let responseNumber = ctx.query['hub.challenge']
+  // let responseToken = ctx.query['hub.verify_token']
+  // let responseHeaders = [responseNumber, responseToken]
+
+  ctx.body = 20
+})
+
+
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
