@@ -18,7 +18,8 @@ app.use(json());
 app.use(BodyParser())
 
 // Router middleware
-app.use(router.routes()).use(router.allowedMethods());
+// app.use(router.routes()).use(router.allowedMethods());
+app.use(router.routes());
 
 // test route
 router.get("/", ctx => {
@@ -41,8 +42,32 @@ router.get("/", ctx => {
       console.error("Unable to send message:" + err);
     }
   }); 
-  this.body = 'Your message has been sent'
+  ctx.body = 'Your message has been sent'
 });
+
+router.get('/hook', ctx => {
+  console.log(ctx.query['hub.challenge'])
+  let responseNumber = ctx.query['hub.challenge']
+  let responseToken = ctx.query['hub.verify_token']
+  // let responseHeaders = [responseNumber, responseToken]
+
+  ctx.body = responseNumber
+})
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+  
+}
 
 // Verify route
 // router.post('/webhook', ctx => {
