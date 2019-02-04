@@ -3,6 +3,7 @@ const json = require("koa-json");
 const KoaRouter = require("koa-router");
 const BodyParser = require('koa-bodyparser')
 const request = require('request')
+const dotenv = require('dotenv').config()
 
 const app = new Koa();
 const router = new KoaRouter();
@@ -21,17 +22,17 @@ app.use(BodyParser())
 // app.use(router.routes()).use(router.allowedMethods());
 app.use(router.routes());
 
-// ID = 1082478417
+// ID = 1082478417 Vanlig facebook
+// Page ID = 2047025908699136
 
 // test route
 router.get("/", ctx => {
   console.log(ctx)
 
   let request_body = {
-    "recipient": {
-      "id": "1082478417"
-    },
-    "message": "Tjenamors!"
+    "messaging_type": "UPDATE",
+    "recipient": {"id": 2047025908699136},
+    "message": {text: 'Test'}
   }
 
   request({
@@ -52,17 +53,20 @@ router.get("/", ctx => {
   ctx.body = 'Your message has been sent'
 });
 
-router.get('/hook', ctx => {
-  console.log(ctx)
-  // let responseNumber = ctx.query['hub.challenge']
-  // let responseToken = ctx.query['hub.verify_token']
-  // let responseHeaders = [responseNumber, responseToken]
+// To verify the webhook
+// router.get('/hook', ctx => {
+//   console.log(ctx)
+//   let responseNumber = ctx.query['hub.challenge']
+//   // let responseToken = ctx.query['hub.verify_token']
+//   // let responseHeaders = [responseNumber, responseToken]
+//   ctx.body = responseNumber
+// })
 
-  ctx.body = responseNumber
-})
-
-router.post('/hook', ctx => {
-  console.log(ctx)
+router.post('/hook', async ctx => {
+  let messaging_events = await ctx.request.body
+  console.log(messaging_events)
+  // console.log(messaging_events);
+  
   // let responseNumber = ctx.query['hub.challenge']
   // let responseToken = ctx.query['hub.verify_token']
   // let responseHeaders = [responseNumber, responseToken]
