@@ -16,7 +16,7 @@ app.use(BodyParser())
 app.use(router.routes()).use(router.allowedMethods());
 
 // test route
-router.get("/test", ctx => (ctx.body = "Hello test"));
+router.get("/", ctx => (ctx.body = "Hello test"));
 
 app.listen(process.env.port, () => {
   console.log("Server started.");
