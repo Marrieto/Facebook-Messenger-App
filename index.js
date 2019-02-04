@@ -23,8 +23,9 @@ app.use(router.routes()).use(router.allowedMethods());
 router.get("/", ctx => (ctx.body = message));
 
 // Verify route
-router.get('/webhook', ctx => {
+router.post('/webhook', ctx => {
   message = ctx.body
+  
 })
 
 app.listen(process.env.PORT || 5000, () => {
