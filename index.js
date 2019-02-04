@@ -41,7 +41,6 @@ router.get("/", ctx => {
       console.error("Unable to send message:" + err);
     }
   }); 
-  ctx.redirect('/')
 });
 
 // Verify route
